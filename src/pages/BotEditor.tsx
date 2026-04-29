@@ -13,6 +13,7 @@ export default function BotEditor() {
     name: '',
     welcomeMessage: 'Hi! How can I help you?',
     systemPrompt: 'You are a helpful assistant.',
+    allowedTopics: '',
     accentColor: '#6366f1',
   });
   const [botId, setBotId] = useState<string | null>(null);
@@ -31,6 +32,7 @@ export default function BotEditor() {
           name: bot.name,
           welcomeMessage: bot.welcomeMessage,
           systemPrompt: bot.systemPrompt,
+          allowedTopics: bot.allowedTopics ?? '',
           accentColor: bot.accentColor,
         });
         setBotId(bot.id);
@@ -123,6 +125,23 @@ export default function BotEditor() {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
               placeholder="You are a helpful assistant for Acme Corp…"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Allowed topics
+              <span className="ml-1 font-normal text-gray-400">(optional — restrict bot to specific subjects)</span>
+            </label>
+            <input
+              type="text"
+              value={form.allowedTopics ?? ''}
+              onChange={(e) => setForm({ ...form, allowedTopics: e.target.value })}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="e.g. pricing, shipping, returns, product support"
+            />
+            <p className="mt-1 text-xs text-gray-400">
+              Comma-separated list. When set, the bot will politely decline off-topic questions.
+            </p>
           </div>
 
           <div>

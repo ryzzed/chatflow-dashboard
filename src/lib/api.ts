@@ -66,6 +66,7 @@ export interface Bot {
   name: string;
   welcomeMessage: string;
   systemPrompt: string;
+  allowedTopics: string;
   accentColor: string;
   isActive: boolean;
   createdAt: string;
@@ -76,6 +77,7 @@ export interface BotPayload {
   name: string;
   welcomeMessage?: string;
   systemPrompt?: string;
+  allowedTopics?: string;
   accentColor?: string;
   isActive?: boolean;
 }
