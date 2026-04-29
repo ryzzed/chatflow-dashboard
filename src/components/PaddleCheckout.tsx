@@ -60,12 +60,21 @@ export default function PaddleCheckout({ onClose }: Props) {
         eventCallback: (data: { name: string; error?: { detail?: string } }) => {
           if (data.name === 'checkout.completed') {
             // Checkout succeeded — refresh user plan then close modal.
-            // Paddle may fire this slightly before the webhook arrives;
-            // we poll /auth/me with a short delay to give the webhook time.
+            // Paddle webhook may take 3-8s to arrive and update our DB.
+            // Poll /auth/me up to 8 times at 2s intervals until plan changes.
             setCheckoutSuccess(true);
-            setTimeout(() => {
-              refreshRef.current().finally(() => onCloseRef.current());
-            }, 2000);
+            let polls = 0;
+            const poll = () => {
+              refreshRef.current().finally(() => {
+                polls++;
+                if (polls >= 8) {
+                  onCloseRef.current();
+                } else {
+                  setTimeout(poll, 2000);
+                }
+              });
+            };
+            setTimeout(poll, 2000);
           } else if (data.name === 'checkout.closed') {
             // User dismissed the Paddle overlay without completing
             onCloseRef.current();
@@ -116,7 +125,7 @@ export default function PaddleCheckout({ onClose }: Props) {
       price: '$39',
       period: '/mo',
       priceId: STARTER_PRICE_ID,
-      features: ['500 messages/month', '5 bots', 'Email support'],
+      features: ['500 messages/month', '1 chatbot', 'Remove ChatFlow branding', 'Priority support', 'Analytics dashboard'],
     },
     {
       key: 'PRO' as const,
@@ -124,7 +133,7 @@ export default function PaddleCheckout({ onClose }: Props) {
       price: '$79',
       period: '/mo',
       priceId: PRO_PRICE_ID,
-      features: ['2,000 messages/month', 'Unlimited bots', 'Priority support', 'Custom branding'],
+      features: ['Unlimited messages', 'Up to 5 chatbots', 'Full white-label & custom branding', 'Priority support', 'Analytics dashboard'],
       popular: true,
     },
   ];
