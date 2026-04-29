@@ -16,12 +16,13 @@ declare global {
 
 interface Props {
   onClose: () => void;
+  initialPlan?: 'STARTER' | 'PRO';
 }
 
-export default function PaddleCheckout({ onClose }: Props) {
+export default function PaddleCheckout({ onClose, initialPlan = 'STARTER' }: Props) {
   const { user, refreshUser } = useAuth();
   const [paddleReady, setPaddleReady] = useState(false);
-  const [selected, setSelected] = useState<'STARTER' | 'PRO'>('STARTER');
+  const [selected, setSelected] = useState<'STARTER' | 'PRO'>(initialPlan);
   const [error, setError] = useState('');
   const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 

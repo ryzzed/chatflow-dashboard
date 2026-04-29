@@ -74,9 +74,9 @@ export default function BillingCard({ user, monthlyMessageCount, onUpgrade }: Pr
               {statusLabel}
             </div>
           )}
-          {user.plan === 'FREE' && (
+          {(user.plan === 'FREE' || user.plan === 'STARTER') && (
             <button onClick={onUpgrade} className="btn-primary py-1.5 text-xs">
-              Upgrade
+              {user.plan === 'STARTER' ? 'Upgrade to Pro' : 'Upgrade'}
             </button>
           )}
         </div>
@@ -91,7 +91,7 @@ export default function BillingCard({ user, monthlyMessageCount, onUpgrade }: Pr
           <p className="text-xs text-red-400">
             <strong>Payment failed.</strong> Update your payment method in the{' '}
             <a
-              href="https://sandbox-checkout.paddle.com/"
+              href="https://billing.paddle.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:no-underline"

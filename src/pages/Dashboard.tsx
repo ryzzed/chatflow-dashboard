@@ -193,7 +193,13 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [upgradePlan, setUpgradePlan] = useState<'STARTER' | 'PRO'>('STARTER');
   const [copyToast, setCopyToast] = useState('');
+
+  function openUpgrade(plan: 'STARTER' | 'PRO' = 'STARTER') {
+    setUpgradePlan(plan);
+    setShowUpgrade(true);
+  }
 
   useEffect(() => {
     Promise.all([api.bots.list(), api.stats.get()])
@@ -248,9 +254,14 @@ export default function Dashboard() {
             <p className="text-xs text-slate-600">{user?.email}</p>
           </div>
           {user?.plan !== 'PRO' && (
-            <button onClick={() => setShowUpgrade(true)} className="btn-primary py-1.5 text-xs">
-              Upgrade
-            </button>
+            <>
+              <Link to="/pricing" className="text-xs text-slate-500 hover:text-slate-300 transition-colors hidden sm:block">
+                View plans
+              </Link>
+              <button onClick={() => openUpgrade(user?.plan === 'STARTER' ? 'PRO' : 'STARTER')} className="btn-primary py-1.5 text-xs">
+                {user?.plan === 'STARTER' ? 'Upgrade to Pro' : 'Upgrade'}
+              </button>
+            </>
           )}
           <button onClick={logout} className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
             Sign out
@@ -273,7 +284,7 @@ export default function Dashboard() {
             onClick={() => {
               const limit = BOT_LIMITS[user?.plan ?? 'FREE'] ?? 1;
               if (bots.length >= limit) {
-                setShowUpgrade(true);
+                openUpgrade(user?.plan === 'STARTER' ? 'PRO' : 'STARTER');
               } else {
                 navigate('/bots/new');
               }
@@ -340,7 +351,7 @@ export default function Dashboard() {
               </div>
               {user?.plan !== 'PRO' && (
                 <button
-                  onClick={() => setShowUpgrade(true)}
+                  onClick={() => openUpgrade('PRO')}
                   className="text-xs font-semibold text-violet-400 hover:text-violet-300 text-left transition-colors"
                 >
                   Upgrade to Pro →
@@ -408,7 +419,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {showUpgrade && <PaddleCheckout onClose={() => setShowUpgrade(false)} />}
+      {showUpgrade && <PaddleCheckout onClose={() => setShowUpgrade(false)} initialPlan={upgradePlan} />}
     </div>
   );
 }

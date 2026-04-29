@@ -91,7 +91,9 @@ export default function Pricing() {
   function handlePlanCTA(planKey: string) {
     if (!user) return; // shouldn't happen on protected route
     if (planKey === 'FREE') return;
-    if (user.plan !== 'FREE') return; // already paid
+    // Allow FREE → STARTER, FREE → PRO, and STARTER → PRO upgrades
+    if (user.plan === 'PRO') return; // already on highest plan
+    if (user.plan === 'STARTER' && planKey === 'STARTER') return; // no-op
     setTargetPlan(planKey as 'STARTER' | 'PRO');
     setShowUpgrade(true);
   }
@@ -195,6 +197,13 @@ export default function Pricing() {
                 >
                   {plan.cta}
                 </button>
+              ) : user?.plan === 'STARTER' && plan.key === 'PRO' ? (
+                <button
+                  onClick={() => handlePlanCTA(plan.key)}
+                  style={{ width: '100%', padding: '11px', borderRadius: 8, background: '#7c3aed', border: 'none', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
+                >
+                  Upgrade to Pro
+                </button>
               ) : (
                 <div style={{ textAlign: 'center', padding: '10px', borderRadius: 8, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)', fontSize: 13, color: '#475569' }}>
                   Contact support to change plan
@@ -272,7 +281,7 @@ export default function Pricing() {
         </div>
       )}
 
-      {showUpgrade && <PaddleCheckout onClose={() => setShowUpgrade(false)} />}
+      {showUpgrade && <PaddleCheckout onClose={() => setShowUpgrade(false)} initialPlan={targetPlan} />}
     </div>
   );
 }
