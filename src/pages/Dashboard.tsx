@@ -104,6 +104,18 @@ function BotCard({
           </svg>
           {(bot.conversationCount ?? 0).toLocaleString()} conversations
         </span>
+        {(bot.conversationCount ?? 0) === 0 && (
+          <span
+            className="flex items-center gap-1 text-[10px] font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-0.5 cursor-pointer hover:bg-amber-500/20 transition-colors"
+            onClick={() => onCopyEmbed(bot.id)}
+            title="Click to copy embed code"
+          >
+            <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Not deployed — copy embed
+          </span>
+        )}
       </div>
 
       <div className="flex items-center gap-1 pt-3 border-t border-white/[0.06] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-150">
