@@ -6,7 +6,7 @@ import PaddleCheckout from '../components/PaddleCheckout';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'https://chatflow-api-406c.onrender.com'; // fallback used for embed snippet display only
 
-const PLAN_CAPS: Record<string, number> = { FREE: 100, STARTER: 500, PRO: 1_000_000 };
+const PLAN_CAPS: Record<string, number> = { FREE: 1000, STARTER: 5000, PRO: 1_000_000 };
 const BOT_LIMITS: Record<string, number> = { FREE: 1, STARTER: 1, PRO: 5 };
 
 const PLAN_BADGE: Record<string, { label: string; cls: string }> = {
