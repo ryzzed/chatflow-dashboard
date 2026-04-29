@@ -7,6 +7,8 @@ interface AuthCtx {
   loading: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  /** Re-fetch /auth/me and update user in context (e.g. after Paddle checkout) */
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthCtx | null>(null);
@@ -43,8 +45,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   }
 
+  async function refreshUser() {
+    try {
+      const { user: fresh } = await api.auth.me();
+      setUser(fresh);
+    } catch {
+      // Ignore; existing user state remains
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
