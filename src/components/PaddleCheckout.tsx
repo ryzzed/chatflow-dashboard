@@ -125,7 +125,7 @@ export default function PaddleCheckout({ onClose }: Props) {
       price: '$39',
       period: '/mo',
       priceId: STARTER_PRICE_ID,
-      features: ['500 messages/month', '1 chatbot', 'Remove ChatFlow branding', 'Priority support', 'Analytics dashboard'],
+      features: ['5,000 messages/month', '1 chatbot', 'Remove ChatFlow branding', 'Priority support', 'Analytics dashboard'],
     },
     {
       key: 'PRO' as const,

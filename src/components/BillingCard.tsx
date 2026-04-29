@@ -6,11 +6,10 @@ interface Props {
   onUpgrade: () => void;
 }
 
-// These match the plan marketing copy on the landing page.
-// The actual API caps are more generous (1000/5000/10000) — users get more than promised.
+// Must match PLAN_CAPS in chatflow-api/src/routes/bots.ts
 const PLAN_LIMITS: Record<string, number> = {
-  FREE:    100,
-  STARTER: 500,
+  FREE:    1000,
+  STARTER: 5000,
   PRO:     Infinity,
 };
 

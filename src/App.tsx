@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import BotEditor from './pages/BotEditor';
 import Conversations from './pages/Conversations';
 import LandingPage from './pages/LandingPage';
+import Pricing from './pages/Pricing';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/bots/:id"  element={<ProtectedRoute><BotEditor /></ProtectedRoute>} />
           <Route path="/bots/:id/conversations" element={<ProtectedRoute><Conversations /></ProtectedRoute>} />
+          <Route path="/pricing"   element={<ProtectedRoute><Pricing /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
