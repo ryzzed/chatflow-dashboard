@@ -2,8 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-base:     #0a0a0f;
+  --bg-surface:  #0d0d18;
+  --bg-elevated: #111127;
+  --accent:      #7c3aed;
+  --accent-soft: #a78bfa;
+  --border:      rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
+  --text-1:      #f1f5f9;
+  --text-2:      #94a3b8;
+  --text-3:      #475569;
+  --glow:        rgba(124,58,237,0.25);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-1);
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11','ss01';
+}
+
+/* ── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Focus ──────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+/* ── Utility classes ────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Input base */
+.input-dark {
+  @apply w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3.5 py-2.5
+         text-sm text-slate-100 placeholder:text-slate-600
+         focus:outline-none focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/30
+         transition-colors duration-150;
+}
+
+/* Card base */
+.card-dark {
+  @apply bg-[#0d0d18] border border-white/[0.07] rounded-xl;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.card-dark:hover {
+  border-color: rgba(124,58,237,0.28);
+  box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 8px 32px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
+}
+
+/* Primary button */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2
+         bg-violet-600 hover:bg-violet-500
+         text-white font-semibold text-sm
+         px-4 py-2 rounded-lg
+         transition-all duration-150;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 18px rgba(124,58,237,0.35);
+}
+.btn-primary:disabled { @apply opacity-50 cursor-not-allowed; box-shadow: none; }
+
+/* Ghost button */
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2
+         border border-white/[0.1] hover:border-white/[0.22]
+         text-slate-400 hover:text-slate-100
+         text-sm font-medium px-4 py-2 rounded-lg
+         transition-colors duration-150;
+}
+
+/* Danger button */
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2
+         text-red-400 hover:text-red-300
+         text-sm font-medium px-3 py-1.5 rounded-lg
+         hover:bg-red-500/10
+         transition-colors duration-150;
+}
+
+/* Nav */
+.nav-dark {
+  @apply fixed top-0 left-0 right-0 z-40
+         border-b border-white/[0.06]
+         px-6 h-14 flex items-center justify-between;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Noise overlay for premium feel */
+.noise {
+  position: relative;
+  isolation: isolate;
+}
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: -1;
 }
