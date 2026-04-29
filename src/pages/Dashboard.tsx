@@ -4,9 +4,10 @@ import { api, type Bot, type Stats } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import PaddleCheckout from '../components/PaddleCheckout';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'https://chatflow-api-406c.onrender.com';
+const API_BASE = import.meta.env.VITE_API_URL ?? 'https://chatflow-api-406c.onrender.com'; // fallback used for embed snippet display only
 
 const PLAN_CAPS: Record<string, number> = { FREE: 100, STARTER: 500, PRO: 1_000_000 };
+const BOT_LIMITS: Record<string, number> = { FREE: 1, STARTER: 1, PRO: 5 };
 
 const PLAN_BADGE: Record<string, { label: string; cls: string }> = {
   FREE:    { label: 'Free',    cls: 'bg-white/[0.06] text-slate-400' },
@@ -256,7 +257,17 @@ export default function Dashboard() {
               {loading ? 'Loading…' : `${bots.length} bot${bots.length !== 1 ? 's' : ''} configured`}
             </p>
           </div>
-          <button onClick={() => navigate('/bots/new')} className="btn-primary">
+          <button
+            onClick={() => {
+              const limit = BOT_LIMITS[user?.plan ?? 'FREE'] ?? 1;
+              if (bots.length >= limit) {
+                setShowUpgrade(true);
+              } else {
+                navigate('/bots/new');
+              }
+            }}
+            className="btn-primary"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
