@@ -54,6 +54,8 @@ export const api = {
       }),
     conversations: (id: string) =>
       request<{ conversations: Conversation[] }>(`/bots/${id}/conversations`),
+    conversation: (botId: string, convId: string) =>
+      request<{ conversation: ConversationDetail }>(`/bots/${botId}/conversations/${convId}`),
     previewChat: (message: string, config: { name?: string; systemPrompt?: string; allowedTopics?: string }) =>
       request<{ response: string }>('/bots/preview-chat', {
         method: 'POST',
@@ -110,4 +112,12 @@ export interface Conversation {
   updatedAt: string;
   messages: { content: string; role: string; createdAt: string }[];
   _count: { messages: number };
+}
+
+export interface ConversationDetail {
+  id: string;
+  sessionId: string;
+  createdAt: string;
+  updatedAt: string;
+  messages: { id: string; content: string; role: string; createdAt: string }[];
 }
