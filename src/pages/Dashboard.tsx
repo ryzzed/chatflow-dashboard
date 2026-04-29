@@ -78,9 +78,36 @@ export default function Dashboard() {
         {error && <p className="text-red-600 text-sm">{error}</p>}
 
         {!loading && bots.length === 0 && (
-          <div className="text-center py-20 text-gray-400">
-            <p className="text-lg mb-2">No bots yet</p>
-            <p className="text-sm">Create your first bot to get started.</p>
+          <div className="text-center py-16">
+            <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Create your first chatbot</h3>
+            <p className="text-sm text-gray-500 max-w-xs mx-auto mb-8">
+              Set up an AI chatbot for your website in 2 minutes. Get an embed code, paste it on your site, done.
+            </p>
+            <button
+              onClick={() => navigate('/bots/new')}
+              className="bg-indigo-600 text-white text-sm px-6 py-2.5 rounded-lg hover:bg-indigo-700 font-medium"
+            >
+              + Create your first bot
+            </button>
+            <div className="mt-10 grid grid-cols-3 gap-4 max-w-sm mx-auto text-xs text-gray-400">
+              <div className="flex flex-col items-center gap-1">
+                <span className="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs">1</span>
+                <span>Name &amp; configure</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs">2</span>
+                <span>Copy embed code</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs">3</span>
+                <span>Paste &amp; go live</span>
+              </div>
+            </div>
           </div>
         )}
 
