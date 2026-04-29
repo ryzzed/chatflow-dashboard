@@ -22,6 +22,7 @@ export default function PaddleCheckout({ onClose }: Props) {
   const { user } = useAuth();
   const [paddleReady, setPaddleReady] = useState(false);
   const [selected, setSelected] = useState<'STARTER' | 'PRO'>('STARTER');
+  const [error, setError] = useState('');
   const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,8 @@ export default function PaddleCheckout({ onClose }: Props) {
     script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
     script.async = true;
     script.onload = initPaddle;
+    script.onerror = () =>
+      setError('Failed to load payment provider. Please refresh and try again.');
     document.head.appendChild(script);
     scriptRef.current = script;
 
@@ -48,24 +51,50 @@ export default function PaddleCheckout({ onClose }: Props) {
       setPaddleReady(false);
       return;
     }
-    window.Paddle.Environment.set(PADDLE_ENV);
-    window.Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN });
-    setPaddleReady(true);
+    try {
+      window.Paddle.Environment.set(PADDLE_ENV);
+      window.Paddle.Initialize({
+        token: PADDLE_CLIENT_TOKEN,
+        // Capture async Paddle errors (invalid token, network failures, bad price IDs)
+        eventCallback: (data: { name: string; error?: { detail?: string } }) => {
+          if (data.name === 'checkout.error') {
+            setError(
+              data.error?.detail ?? 'Checkout failed. Please try again or contact support.'
+            );
+          }
+        },
+      });
+      setPaddleReady(true);
+    } catch (err) {
+      console.error('Paddle init error:', err);
+      setError('Failed to initialise payment provider. Please refresh and try again.');
+    }
   }
 
   function openCheckout(priceId: string) {
-    if (!window.Paddle || !priceId) return;
-
-    window.Paddle.Checkout.open({
-      items: [{ priceId, quantity: 1 }],
-      customer: user?.email ? { email: user.email } : undefined,
-      settings: {
-        displayMode: 'overlay',
-        theme: 'light',
-        locale: 'en',
-      },
-    });
-    onClose();
+    if (!window.Paddle) return;
+    if (!priceId) {
+      setError('This plan is not yet available for purchase. Please contact support.');
+      return;
+    }
+    setError('');
+    try {
+      window.Paddle.Checkout.open({
+        items: [{ priceId, quantity: 1 }],
+        customer: user?.email ? { email: user.email } : undefined,
+        settings: {
+          displayMode: 'overlay',
+          theme: 'light',
+          locale: 'en',
+        },
+      });
+      onClose();
+    } catch (err) {
+      console.error('Paddle checkout error:', err);
+      setError(
+        err instanceof Error ? err.message : 'Failed to open checkout. Please try again.'
+      );
+    }
   }
 
   const plans = [
@@ -126,6 +155,12 @@ export default function PaddleCheckout({ onClose }: Props) {
         ) : !paddleReady ? (
           <p className="text-sm text-gray-500 mb-4">Loading payment provider…</p>
         ) : null}
+
+        {error && (
+          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-4">
+            {error}
+          </p>
+        )}
 
         <button
           onClick={() => {
