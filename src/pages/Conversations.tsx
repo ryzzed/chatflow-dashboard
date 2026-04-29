@@ -49,7 +49,7 @@ export default function Conversations() {
       <nav className="nav-dark">
         <div className="flex items-center gap-3">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboard')}
             className="flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

@@ -18,7 +18,7 @@ export default function Login() {
     try {
       const { user, token } = await api.auth.login(email, password);
       login(token, user);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {
