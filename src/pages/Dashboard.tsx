@@ -4,7 +4,7 @@ import { api, type Bot, type Stats } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import PaddleCheckout from '../components/PaddleCheckout';
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'https://chatflow-api.onrender.com';
+const API_BASE = import.meta.env.VITE_API_URL ?? 'https://chatflow-api-406c.onrender.com';
 
 const PLAN_CAPS: Record<string, number> = { FREE: 100, STARTER: 500, PRO: 1_000_000 };
 

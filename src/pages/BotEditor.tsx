@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 
-const RENDER_URL = import.meta.env.VITE_API_URL ?? 'https://chatflow-api.onrender.com';
+const RENDER_URL = import.meta.env.VITE_API_URL ?? 'https://chatflow-api-406c.onrender.com';
 
 const STEPS = ['Identity', 'Behavior', 'Test', 'Deploy'] as const;
 type Step = 0 | 1 | 2 | 3;
