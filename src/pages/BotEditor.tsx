@@ -608,6 +608,30 @@ export default function BotEditor() {
               )}
             </div>
 
+            {/* Platform-specific embed guide */}
+            <div className="card-dark p-5 flex items-start gap-3">
+              <div className="mt-0.5 flex-shrink-0 w-7 h-7 rounded-md bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                <svg className="w-3.5 h-3.5 text-violet-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white mb-0.5">Not sure how to embed?</p>
+                <p className="text-xs text-slate-500 mb-2">Step-by-step guides for WordPress, Shopify, Webflow, Squarespace, and Wix.</p>
+                <a
+                  href="https://myflow.chat/embed.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-violet-400 hover:text-violet-300 font-medium transition-colors"
+                >
+                  View embed guide
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
             {/* Demo link */}
             {demoUrl && (
               <div className="card-dark noise p-6">
