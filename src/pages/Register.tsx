@@ -19,7 +19,8 @@ export default function Register() {
     try {
       const { user, token } = await api.auth.register(email, password, name || undefined);
       login(token, user);
-      navigate('/dashboard');
+      // New users go directly to bot creation — skips the empty dashboard step
+      navigate('/bots/new');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
@@ -48,7 +49,7 @@ export default function Register() {
             </div>
             <span className="text-xl font-bold text-white">ChatFlow</span>
           </div>
-          <p className="text-slate-500 text-sm">Create your free account</p>
+          <p className="text-slate-500 text-sm">Create your free account — build your bot in 2 min</p>
         </div>
 
         {/* Card */}
