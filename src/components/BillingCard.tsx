@@ -6,10 +6,12 @@ interface Props {
   onUpgrade: () => void;
 }
 
+// These match the plan marketing copy on the landing page.
+// The actual API caps are more generous (1000/5000/10000) — users get more than promised.
 const PLAN_LIMITS: Record<string, number> = {
-  FREE:    50,
+  FREE:    100,
   STARTER: 500,
-  PRO:     2000,
+  PRO:     Infinity,
 };
 
 const PLAN_LABELS: Record<string, string> = {
@@ -35,8 +37,9 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export default function BillingCard({ user, monthlyMessageCount, onUpgrade }: Props) {
-  const limit   = PLAN_LIMITS[user.plan] ?? 50;
-  const usagePct = Math.min(100, Math.round((monthlyMessageCount / limit) * 100));
+  const limit    = PLAN_LIMITS[user.plan] ?? 100;
+  const isUnlimited = !isFinite(limit);
+  const usagePct = isUnlimited ? 0 : Math.min(100, Math.round((monthlyMessageCount / limit) * 100));
 
   let barColor = 'bg-violet-500';
   if (usagePct >= 90) barColor = 'bg-red-500';
@@ -125,24 +128,29 @@ export default function BillingCard({ user, monthlyMessageCount, onUpgrade }: Pr
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs text-slate-600">Messages this month</p>
           <p className="text-xs font-medium text-slate-400">
-            {monthlyMessageCount.toLocaleString()} / {limit.toLocaleString()}
+            {monthlyMessageCount.toLocaleString()}
+            {isUnlimited ? ' / Unlimited' : ` / ${limit.toLocaleString()}`}
           </p>
         </div>
-        <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all ${barColor}`}
-            style={{ width: `${usagePct}%` }}
-          />
-        </div>
-        {usagePct >= 90 && (
-          <p className="text-xs text-red-400 mt-1.5">
-            Near monthly limit.{' '}
-            {user.plan === 'FREE' ? (
-              <button onClick={onUpgrade} className="underline hover:no-underline">
-                Upgrade now
-              </button>
-            ) : 'Contact support for more capacity.'}
-          </p>
+        {!isUnlimited && (
+          <>
+            <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all ${barColor}`}
+                style={{ width: `${usagePct}%` }}
+              />
+            </div>
+            {usagePct >= 90 && (
+              <p className="text-xs text-red-400 mt-1.5">
+                Near monthly limit.{' '}
+                {user.plan === 'FREE' ? (
+                  <button onClick={onUpgrade} className="underline hover:no-underline">
+                    Upgrade now
+                  </button>
+                ) : 'Contact support for more capacity.'}
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>
