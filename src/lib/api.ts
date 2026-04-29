@@ -33,7 +33,11 @@ export const api = {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       }),
-    me: () => request<{ user: User }>('/auth/me'),
+    me: () => request<{ user: User; monthlyMessageCount: number }>('/auth/me'),
+  },
+
+  stats: {
+    get: () => request<Stats>('/bots/stats'),
   },
 
   bots: {
@@ -50,6 +54,11 @@ export const api = {
       }),
     conversations: (id: string) =>
       request<{ conversations: Conversation[] }>(`/bots/${id}/conversations`),
+    previewChat: (message: string, config: { name?: string; systemPrompt?: string; allowedTopics?: string }) =>
+      request<{ response: string }>('/bots/preview-chat', {
+        method: 'POST',
+        body: JSON.stringify({ message, config }),
+      }),
   },
 };
 
@@ -58,7 +67,17 @@ export interface User {
   email: string;
   name?: string;
   plan: 'FREE' | 'STARTER' | 'PRO';
+  /** "active" | "past_due" | "paused" | "cancelled" | "trialing" | null */
+  paddleSubscriptionStatus: string | null;
+  /** ISO timestamp of next billing date, or null */
+  paddleNextBillDate: string | null;
   createdAt: string;
+}
+
+export interface Stats {
+  totalConversations: number;
+  messagesThisMonth: number;
+  activeBots: number;
 }
 
 export interface Bot {
@@ -71,6 +90,8 @@ export interface Bot {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  conversationCount?: number;
+  lastActiveAt?: string | null;
 }
 
 export interface BotPayload {
