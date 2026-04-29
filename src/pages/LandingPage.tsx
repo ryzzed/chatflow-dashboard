@@ -44,7 +44,7 @@ export default function LandingPage() {
       <section className="relative z-10 text-center px-4 pt-20 pb-16 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-6">
           <div className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-          <span className="text-xs text-violet-300 font-medium">GPT-4 powered chatbots</span>
+          <span className="text-xs text-violet-300 font-medium">LLaMA 3.3 70B — fast &amp; accurate</span>
         </div>
 
         <h1 className="text-5xl sm:text-6xl font-bold text-white leading-tight mb-6">
@@ -89,8 +89,8 @@ export default function LandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                 </svg>
               ),
-              title: 'GPT-4 powered',
-              desc: 'State-of-the-art language model handles nuanced questions with human-like accuracy.',
+              title: 'LLaMA 3.3 70B',
+              desc: 'Open-source frontier model handles nuanced questions with human-like accuracy.',
             },
             {
               icon: (
@@ -154,7 +154,7 @@ export default function LandingPage() {
               <p className="text-3xl font-bold text-white">$39<span className="text-sm font-normal text-slate-500">/mo</span></p>
             </div>
             <ul className="space-y-2.5 text-sm text-slate-400 flex-1">
-              {['500 messages/month', '5 chatbots', 'Remove ChatFlow branding', 'Priority support', 'Analytics dashboard'].map((f) => (
+              {['500 messages/month', '1 chatbot', 'Remove ChatFlow branding', 'Priority support', 'Analytics dashboard'].map((f) => (
                 <li key={f} className="flex items-center gap-2">
                   <svg className="w-4 h-4 text-violet-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
@@ -175,7 +175,7 @@ export default function LandingPage() {
               <p className="text-3xl font-bold text-white">$79<span className="text-sm font-normal text-slate-500">/mo</span></p>
             </div>
             <ul className="space-y-2.5 text-sm text-slate-400 flex-1">
-              {['Unlimited messages', 'Unlimited chatbots', 'Full white-label & custom branding', 'Dedicated support', 'API access', 'Custom integrations'].map((f) => (
+              {['Unlimited messages', '5 chatbots', 'Full white-label & custom branding', 'Dedicated support', 'API access', 'Custom integrations'].map((f) => (
                 <li key={f} className="flex items-center gap-2">
                   <svg className="w-4 h-4 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
@@ -201,7 +201,7 @@ export default function LandingPage() {
           </div>
           <span className="text-sm font-semibold text-slate-400">ChatFlow</span>
         </div>
-        <p className="text-xs text-slate-600">© 2025 ForgeAI. All rights reserved.</p>
+        <p className="text-xs text-slate-600">© 2026 ForgeAI. All rights reserved.</p>
       </footer>
     </div>
   );
